@@ -11,6 +11,63 @@ document.addEventListener("DOMContentLoaded", () => {
   const resetYesButton = document.getElementById("reset-yes");
   const resetNoButton = document.getElementById("reset-no");
 
+  // Mood selection functionality
+  const moodBox = document.getElementById("mood-box");
+  const moodButtons = moodBox.querySelectorAll(".mood-button");
+  const moodStatus = moodBox.querySelector(".mood-status");
+
+  // Load saved mood from storage
+  chrome.storage.local.get("mood", (data) => {
+    if (data.mood) {
+      const { mood, timestamp } = data.mood;
+      const today = new Date().toDateString();
+      
+      // Only show saved mood if it was set today
+      if (timestamp === today) {
+        const selectedButton = moodBox.querySelector(`[data-mood="${mood}"]`);
+        if (selectedButton) {
+          selectedButton.classList.add("selected");
+          updateMoodStatus(mood);
+        }
+      }
+    }
+  });
+
+  // Handle mood selection
+  moodButtons.forEach(button => {
+    button.addEventListener("click", () => {
+      const mood = button.dataset.mood;
+      
+      // Remove selection from all buttons
+      moodButtons.forEach(btn => btn.classList.remove("selected"));
+      
+      // Add selection to clicked button
+      button.classList.add("selected");
+      
+      // Update status text
+      updateMoodStatus(mood);
+
+      // Save mood with timestamp
+      chrome.storage.local.set({
+        mood: {
+          mood: mood,
+          timestamp: new Date().toDateString()
+        }
+      });
+    });
+  });
+
+  function updateMoodStatus(mood) {
+    const messages = {
+      happy: "Feeling great today! 🌟",
+      neutral: "Taking it easy 🌤",
+      stressed: "Taking deep breaths 🫧",
+      energetic: "Full of energy! ✨",
+      tired: "Time to rest 🌙"
+    };
+    moodStatus.textContent = messages[mood] || "How are you feeling?";
+  }
+
   // for controlling when hovers are active
   let hoverListeners = [];
 
