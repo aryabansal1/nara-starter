@@ -3,6 +3,49 @@ document.addEventListener("DOMContentLoaded", () => {
   backgroundContainer.className = "background-container";
   document.body.appendChild(backgroundContainer);
 
+  // Encouraging messages for task completion
+  const encouragingMessages = [
+    "Great job! 🌟",
+    "You're making progress! 💪",
+    "Keep going! 🚀",
+    "You're doing amazing! ✨",
+    "That's the spirit! 🌈",
+    "You're on fire! 🔥",
+    "Fantastic work! 🎯",
+    "You're crushing it! 💫",
+    "Way to go! 🌟",
+    "You're unstoppable! ⭐"
+  ];
+
+  // Speech bubble elements and functions
+  const speechBubble = document.getElementById("speech-bubble");
+  const speechText = speechBubble.querySelector("p");
+  let speechBubbleTimeout;
+
+  function showEncouragingMessage(taskElement) {
+    // Get random message
+    const message = encouragingMessages[Math.floor(Math.random() * encouragingMessages.length)];
+    speechText.textContent = message;
+
+    // Position the bubble above the task
+    const taskRect = taskElement.getBoundingClientRect();
+    speechBubble.style.left = `${taskRect.left + taskRect.width / 2 - 100}px`; // Center bubble (200px width / 2)
+    speechBubble.style.top = `${taskRect.top - 80}px`; // Position above task
+
+    // Show the bubble
+    speechBubble.classList.remove("hidden");
+
+    // Clear any existing timeout
+    if (speechBubbleTimeout) {
+      clearTimeout(speechBubbleTimeout);
+    }
+
+    // Hide the bubble after 2 seconds
+    speechBubbleTimeout = setTimeout(() => {
+      speechBubble.classList.add("hidden");
+    }, 2000);
+  }
+
   const categoriesContainer = document.getElementById("categories-container");
   const tasksContainer = document.getElementById("tasks-container");
   const taskList = document.getElementById("task-list");
@@ -730,6 +773,8 @@ document.addEventListener("DOMContentLoaded", () => {
         if (tasks[originalIndex].completed) {
           const deleteButton = taskItem.querySelector(".delete-task");
           if (deleteButton) deleteButton.remove();
+          // Show encouraging message when task is completed
+          showEncouragingMessage(taskItem);
         }
 
         let newPosition = 0;
