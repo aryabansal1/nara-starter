@@ -488,3 +488,51 @@ input[type="checkbox"]:checked+.task-text {
     opacity: 0.95;
     animation: welcomeFadeIn 1s ease-out forwards;
     }
+
+/* Speech Bubble Styles */
+.speech-bubble {
+  position: fixed;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  padding: 15px 25px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-width: 200px;
+  text-align: center;
+  animation: popIn 0.3s ease-out;
+  z-index: 1000;
+  transition: opacity 0.3s ease-out;
+}
+
+.speech-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 10px 10px 0;
+  border-style: solid;
+  border-color: rgba(255, 255, 255, 0.95) transparent transparent transparent;
+}
+
+.speech-bubble p {
+  margin: 0;
+  font-size: 16px;
+  color: #2c3e50;
+  font-family: 'DM Sans', sans-serif;
+}
+
+@keyframes popIn {
+  0% {
+    transform: scale(0.8) translateY(10px);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+.speech-bubble.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
