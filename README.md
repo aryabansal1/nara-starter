@@ -62,3 +62,9 @@ git pull
 
 ---
 Happy coding, and good luck with Nara! 🦌
+
+## Documentation Regarding Implemented Features
+
+✅ **IMPLEMENTED** - **Speech Bubble Encouragement**: A speech bubble appears near the completed task with encouraging messages (e.g., "Great job!", "You're making progress!", "Keep going!").
+
+✅ **IMPLEMENTED** - **Mood Selection Prompt**: A simple mood selection feature with emojis (happy, stressed, neutral, etc.) for daily emotional state tracking.
